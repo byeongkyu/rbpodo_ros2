@@ -1,4 +1,4 @@
-link1:
+arm_link1:
   inertial:
     origin:
       xyz: 0.000021 -0.007855 -0.042537
@@ -12,7 +12,7 @@ link1:
       xz: -0.000010119
       yz: 0.003030512
 
-link2:
+arm_link2:
   inertial:
     origin:
       xyz: -0.000013 -0.155462 0.225241
@@ -26,7 +26,7 @@ link2:
       xz: -0.000067084
       yz: 0.024507884
 
-link3:
+arm_link3:
   inertial:
     origin:
       xyz: -0.000048 -0.013885 0.325013
@@ -40,7 +40,7 @@ link3:
       xz: 0.000011690
       yz: 0.005331552
 
-link4:
+arm_link4:
   inertial:
     origin:
       xyz: 0.000093 -0.113949 0.026461
@@ -54,7 +54,7 @@ link4:
       xz: 0.000011208
       yz: 0.000144243
 
-link5:
+arm_link5:
   inertial:
     origin:
       xyz: -0.000093 -0.026434 -0.003233
@@ -68,7 +68,7 @@ link5:
       xz: -0.000008016
       yz: 0.000141528
 
-link6:
+arm_link6:
   inertial:
     origin:
       xyz: -0.000210 -0.092540 -0.000292

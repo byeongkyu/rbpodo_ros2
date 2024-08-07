@@ -1,9 +1,9 @@
-base:
+arm_base:
   origin:
     xyz: 0 0 0.197
     rpy: 0 0 0
-  parent: link0
-  child: link1
+  parent: arm_link0
+  child: arm_link1
   axis:
     xyz: 0 0 1
   limit:
@@ -12,12 +12,12 @@ base:
     effort: 10
     velocity: 3.14
 
-shoulder:
+arm_shoulder:
   origin:
     xyz: 0 -0.1875 0
     rpy: 0 0 0
-  parent: link1
-  child: link2
+  parent: arm_link1
+  child: arm_link2
   axis:
     xyz: 0 1 0
   limit:
@@ -26,12 +26,12 @@ shoulder:
     effort: 10
     velocity: 3.14
 
-elbow:
+arm_elbow:
   origin:
     xyz: 0 0 0.6127
     rpy: 0 0 0
-  parent: link2
-  child: link3
+  parent: arm_link2
+  child: arm_link3
   axis:
     xyz: 0 1 0
   limit:
@@ -40,12 +40,12 @@ elbow:
     effort: 10
     velocity: 3.14
 
-wrist1:
+arm_wrist1:
   origin:
     xyz: 0 0.11715 0.57015
     rpy: 0 0 0
-  parent: link3
-  child: link4
+  parent: arm_link3
+  child: arm_link4
   axis:
     xyz: 0 1 0
   limit:
@@ -54,12 +54,12 @@ wrist1:
     effort: 10
     velocity: 3.14
 
-wrist2:
+arm_wrist2:
   origin:
     xyz: 0 -0.11715 0
     rpy: 0 0 0
-  parent: link4
-  child: link5
+  parent: arm_link4
+  child: arm_link5
   axis:
     xyz: 0 0 1
   limit:
@@ -68,12 +68,12 @@ wrist2:
     effort: 10
     velocity: 3.14
 
-wrist3:
+arm_wrist3:
   origin:
     xyz: 0 0 0.11715
     rpy: 0 0 0
-  parent: link5
-  child: link6
+  parent: arm_link5
+  child: arm_link6
   axis:
     xyz: 0 1 0
   limit:

@@ -24,6 +24,8 @@ def generate_launch_description():
     use_fake_hardware_parameter_name = "use_fake_hardware"
     fake_sensor_commands_parameter_name = "fake_sensor_commands"
     use_rviz_parameter_name = "use_rviz"
+    prefix_name = "prefix"
+    namespace_name = "namespace"
 
     robot_ip = LaunchConfiguration(robot_ip_parameter_name)
     model_id = LaunchConfiguration(model_id_parameter_name)
@@ -31,7 +33,9 @@ def generate_launch_description():
     use_fake_hardware = LaunchConfiguration(use_fake_hardware_parameter_name)
     fake_sensor_commands = LaunchConfiguration(fake_sensor_commands_parameter_name)
     use_rviz = LaunchConfiguration(use_rviz_parameter_name)
-    use_rviz = LaunchConfiguration(use_rviz_parameter_name)
+    prefix = LaunchConfiguration(prefix_name)
+    namespace = LaunchConfiguration(namespace_name)
+
 
     robot_description = Command(
         [
@@ -44,6 +48,8 @@ def generate_launch_description():
             use_fake_hardware,
             " fake_sensor_commands:=",
             fake_sensor_commands,
+            " prefix:=",
+            prefix,
         ]
     )
 
@@ -63,12 +69,12 @@ def generate_launch_description():
         [
             DeclareLaunchArgument(
                 robot_ip_parameter_name,
-                default_value="10.0.2.7",
+                default_value="10.0.99.21",
                 description="Hostname or IP address of the robot.",
             ),
             DeclareLaunchArgument(
                 model_id_parameter_name,
-                default_value="rb5_850e",
+                default_value="rb10_1300e",
                 description="Model ID for Rainbow Robotics Cobot",
             ),
             DeclareLaunchArgument(
@@ -103,13 +109,24 @@ def generate_launch_description():
                     use_fake_hardware_parameter_name
                 ),
             ),
+            DeclareLaunchArgument(
+                prefix_name,
+                default_value="arm_",
+                description="prefix",
+            ),
+            DeclareLaunchArgument(
+                namespace_name,
+                default_value="arm",
+                description="namespace",
+            ),
             Node(
                 package="controller_manager",
                 executable="ros2_control_node",
+                namespace=LaunchConfiguration(namespace_name),
                 parameters=[robot_controllers],
                 remappings=[
-                    ("joint_states", "rbpodo/joint_states"),
-                    ("~/robot_description", "/robot_description"),
+                    # ("joint_states", "rbpodo/joint_states"),
+                    ("~/robot_description", "robot_description"),
                 ],
                 output="both",
                 on_exit=Shutdown(),
@@ -117,31 +134,36 @@ def generate_launch_description():
             Node(
                 package="robot_state_publisher",
                 executable="robot_state_publisher",
+                namespace=LaunchConfiguration(namespace_name),
                 name="robot_state_publisher",
                 output="both",
                 parameters=[{"robot_description": robot_description}],
             ),
-            Node(
-                package="joint_state_publisher",
-                executable="joint_state_publisher",
-                name="joint_state_publisher",
-                parameters=[{"source_list": ["rbpodo/joint_states"], "rate": 30}],
-            ),
+            # Node(
+            #     package="joint_state_publisher",
+            #     executable="joint_state_publisher",
+            #     namespace=LaunchConfiguration(namespace_name),
+            #     name="joint_state_publisher",
+            #     parameters=[{"source_list": ["rbpodo/joint_states"], "rate": 30}],
+            # ),
             Node(
                 package="controller_manager",
                 executable="spawner",
-                arguments=["joint_state_broadcaster"],
+                # namespace=LaunchConfiguration(namespace_name),
+                arguments=["joint_state_broadcaster", "--controller-manager", "/arm/controller_manager"],
                 output="screen",
             ),
             Node(
                 package="controller_manager",
                 executable="spawner",
-                arguments=["position_controllers"],
+                namespace=LaunchConfiguration(namespace_name),
+                arguments=["joint_trajectory_controller", "--controller-manager", "controller_manager"],
                 output="screen",
             ),
             Node(
                 package="rviz2",
                 executable="rviz2",
+                namespace=LaunchConfiguration(namespace_name),
                 name="rviz2",
                 arguments=["--display-config", rviz_file],
                 condition=IfCondition(use_rviz),
