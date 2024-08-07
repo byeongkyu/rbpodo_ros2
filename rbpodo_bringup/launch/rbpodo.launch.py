@@ -157,7 +157,7 @@ def generate_launch_description():
                 package="controller_manager",
                 executable="spawner",
                 namespace=LaunchConfiguration(namespace_name),
-                arguments=["joint_trajectory_controller", "--controller-manager", "controller_manager"],
+                arguments=["joint_trajectory_controller", "--controller-manager", "/arm/controller_manager"],
                 output="screen",
             ),
             Node(
@@ -168,5 +168,12 @@ def generate_launch_description():
                 arguments=["--display-config", rviz_file],
                 condition=IfCondition(use_rviz),
             ),
+            Node(
+                package="tf2_ros",
+                executable="static_transform_publisher",
+                namespace=LaunchConfiguration('namespace'),
+                output="screen",
+                arguments=["--frame-id", "arm_mount_link", "--child-frame-id", "arm_link0", "--yaw", "3.141592"],
+            )
         ]
     )
